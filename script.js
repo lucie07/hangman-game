@@ -97,6 +97,95 @@ function resetGame() {
     }
 }
 
+function hangman() {
+    var divWidth = 55 * word.length + 10;
+    document.getElementById("wordWrap").style.width = divWidth + "px";
+
+    for (var i = 0; i < word.length; i++) {
+        var position = i + 1;
+        var letter = word.charAt(i);
+
+        var letterDiv = document.getElementById("letter" + position);
+        var underlineDiv = document.getElementById("underline" + position);
+
+        if (letter === " ") {
+            letterDiv.innerHTML = "&nbsp;";
+            letterDiv.style.visibility = "hidden";
+
+            underlineDiv.style.display = "block";
+            underlineDiv.style.borderBottom = "none";
+
+            spaces++;
+        } else {
+            letterDiv.innerHTML = letter;
+            letterDiv.style.visibility = "hidden";
+
+            underlineDiv.style.display = "block";
+            underlineDiv.style.borderBottom = "3px solid black";
+        }
+    }
+
+    wordlength = word.length - spaces;
+
+    document.getElementById("gamePage").style.display = "block";
+    document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
+
+    revealStartingLetters();
+}
+
+function revealStartingLetters() {
+    var uniqueLetters = [];
+
+    for (var i = 0; i < word.length; i++) {
+        var currentLetter = word.charAt(i);
+
+        if (currentLetter !== " " && uniqueLetters.indexOf(currentLetter) === -1) {
+            uniqueLetters.push(currentLetter);
+        }
+    }
+
+    // decide how many letters to reveal
+    var lettersToReveal = 1;
+
+    if (word.length >= 7) {
+        lettersToReveal = 2;
+    }
+
+    // do not reveal too much for very short words
+    if (uniqueLetters.length <= 3) {
+        lettersToReveal = 1;
+    }
+
+    for (var r = 0; r < lettersToReveal; r++) {
+        if (uniqueLetters.length === 0) {
+            return;
+        }
+
+        var randomIndex = Math.floor(Math.random() * uniqueLetters.length);
+        var selectedLetter = uniqueLetters[randomIndex];
+
+        uniqueLetters.splice(randomIndex, 1);
+
+        for (var j = 1; j <= word.length; j++) {
+            var letterDiv = document.getElementById("letter" + j);
+
+            if (letterDiv.innerHTML.toLowerCase() === selectedLetter) {
+                if (letterDiv.style.visibility !== "visible") {
+                    letterDiv.style.visibility = "visible";
+                    numRight++;
+                }
+            }
+        }
+
+        var button = document.getElementById(selectedLetter);
+
+        if (button) {
+            button.style.visibility = "hidden";
+            button.disabled = true;
+        }
+    }
+}
+
 function guessLetter(event) {
     var target = event.target;
     var guessedLetter = target.textContent.toLowerCase();
