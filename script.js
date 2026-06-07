@@ -1,107 +1,171 @@
-
 var rand = 0;
-var word = " ";
+var word = "";
 var wordlength = 0;
 var spaces = 0;
 var numRight = 0;
 var mistake = 7;
 var nextImg = 1;
-var divWidth = 55;
-var fruits = ["apple", "kiwi", "carambola","gooseberry","mulberry","mango", "pear","avocado","jackfruit","raspberry","durian","pomegranate","mandarin","banana", "blackberry", "melon", "orange", "papaya", "peach", "pear", "plum", "pineapple", "watermelon", "grapes", "cherry", "coconut","lemon", "lime"];
-//my functions are below
-function myp()
-{
-    document.getElementById('introPage').style.display = "none";
-    document.getElementById('myPage').style.display = "block";
+
+var fruits = [
+    "apple",
+    "kiwi",
+    "carambola",
+    "gooseberry",
+    "mulberry",
+    "mango",
+    "pear",
+    "avocado",
+    "jackfruit",
+    "raspberry",
+    "durian",
+    "pomegranate",
+    "mandarin",
+    "banana",
+    "blackberry",
+    "melon",
+    "orange",
+    "papaya",
+    "peach",
+    "pear",
+    "plum",
+    "pineapple",
+    "watermelon",
+    "grapes",
+    "cherry",
+    "coconut",
+    "lemon",
+    "lime"
+];
+
+function draw() {
+    document.getElementById("introPage").style.display = "block";
+    document.getElementById("myPage").style.display = "none";
+    document.getElementById("gamePage").style.display = "none";
+    document.getElementById("endPage").style.display = "none";
 }
-function fruit()
-{
+
+function myp() {
+    document.getElementById("introPage").style.display = "none";
+    document.getElementById("myPage").style.display = "block";
+}
+
+// fruit button: choose a random fruit and start the game
+function fruit() {
+    resetGame();
+
     rand = Math.floor(Math.random() * fruits.length);
-    word = fruits[rand];
-    document.getElementById('myPage').style.display = "none";
-    document.getElementById('theName').innerHTML = "Guess:";
+    word = fruits[rand].toLowerCase();
+
+    document.getElementById("myPage").style.display = "none";
+    document.getElementById("theName").innerHTML = "Guess:";
+
     hangman();
 }
-function hangman()
-{
-    var x = word.length;
-    var y = x - 1;
-    divWidth = divWidth * word.length + 10 ;
-    document.getElementById('wordWrap').style.width = divWidth + "px";
-    while(x>0)
-    {
-        var letter = word.substring(y, x);
-        if(letter  === " ")
-        {
-            document.getElementById('letter' + x).innerHTML = "&nbsp;";
-            document.getElementById('letter' + x).style.visibility = "hidden";
-            document.getElementById('letter' + x).style.display = "block";
-            document.getElementById('underline' + x).style.display = "block";
-            spaces++;
-        }
-        else
-        {
-            document.getElementById('letter' + x).innerHTML = letter;
-            document.getElementById('letter' + x).style.visibility = "hidden";
-            document.getElementById('underline' + x).style.display = "block";
-            document.getElementById('underline' + x).style.borderBottom = "3px solid black";
-          
-        }
-        x--;
-        y--;
-    }
-    wordlength = word.length - spaces;
 
-    document.getElementById('myPage').style.display = "none";
-    document.getElementById('gamePage').style.display = "block";
-    document.getElementById('mistakes').innerHTML = "Chances : " + mistake;
+// reset game values and clear old display
+function resetGame() {
+    word = "";
+    wordlength = 0;
+    spaces = 0;
+    numRight = 0;
+    mistake = 7;
+    nextImg = 1;
+
+    document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
+    document.getElementById("hangImg").src = "hang1.png";
+    document.getElementById("winStatus").innerHTML = "";
+    document.getElementById("guessedWord").innerHTML = "Word";
+
+    for (var i = 1; i <= 100; i++) {
+        var letterDiv = document.getElementById("letter" + i);
+        var underlineDiv = document.getElementById("underline" + i);
+
+        if (letterDiv && underlineDiv) {
+            letterDiv.innerHTML = "";
+            letterDiv.style.visibility = "hidden";
+
+            underlineDiv.style.display = "none";
+            underlineDiv.style.borderBottom = "none";
+        }
+    }
+
+    var letterButtons = document.querySelectorAll("#letterBank button");
+
+    for (var j = 0; j < letterButtons.length; j++) {
+        letterButtons[j].style.visibility = "visible";
+        letterButtons[j].disabled = false;
+    }
 }
 
-function guessLetter()
-{
+function guessLetter(event) {
     var target = event.target;
-    var correct=false;
+    var guessedLetter = target.textContent.toLowerCase();
+    var correct = false;
+
     target.style.visibility = "hidden";
-    var lower = target.id;
-    var upper = document.getElementById(lower).getAttribute('value');
-    for(var a=1;a<=100;a++)
-    {
-        if(document.getElementById('letter'+a).innerHTML===lower || document.getElementById('letter'+a).innerHTML===upper)
-        {
-            document.getElementById('letter' + a).style.visibility = "visible";
+    target.disabled = true;
+
+    for (var i = 1; i <= word.length; i++) {
+        var letterDiv = document.getElementById("letter" + i);
+
+        if (letterDiv.innerHTML.toLowerCase() === guessedLetter) {
+            if (letterDiv.style.visibility !== "visible") {
+                letterDiv.style.visibility = "visible";
+                numRight++;
+            }
+
             correct = true;
-            numRight++;
         }
     }
-    if (correct == false)
-    {
+
+    if (correct === true) {
+        playSound(correctSound);
+    }
+
+    if (correct === false) {
         mistake--;
-        ++nextImg;
-        document.getElementById('mistakes').innerHTML = "Chances : " + mistake;
-        document.getElementById('hangImg').src = 'hang'+ nextImg +'.png';
+        nextImg++;
+
+        document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
+        document.getElementById("hangImg").src = "hang" + nextImg + ".png";
+
+        if (mistake > 0) {
+            playSound(wrongSound);
+        }
     }
-    if (mistake <= 0)
-    {
+
+    if (mistake <= 0) {
         mistake = 0;
-        document.getElementById('winStatus').innerHTML = 'You lose:(';
-        lose();
+        document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
+        document.getElementById("winStatus").innerHTML = "You lose :(";
+
+        playSound(loseSound);
+
+        setTimeout(function() {
+            lose();
+        }, 600);
+        return;
     }
-    if(numRight==wordlength)
-    {
-        document.getElementById('winStatus').innerHTML = "You Won!:)";
-        win();
+
+    if (numRight === wordlength) {
+        document.getElementById("winStatus").innerHTML = "You won! :)";
+
+        playSound(winSound);
+
+        setTimeout(function() {
+            win();
+        }, 600);
     }
 }
 
-function win()
-{
-    document.getElementById('gamePage').style.display = "none";
-    document.getElementById('endPage').style.display = "block";
-    document.getElementById('guessedWord').innerHTML = "The word: " + word;
+function win() {
+    document.getElementById("gamePage").style.display = "none";
+    document.getElementById("endPage").style.display = "block";
+    document.getElementById("guessedWord").innerHTML = "The word: " + word;
 }
-function lose()
-{
-    document.getElementById('gamePage').style.display = "none";
-    document.getElementById('endPage').style.display = "block";
-    document.getElementById('guessedWord').innerHTML = "The right word is: " + word;
+
+function lose() {
+    document.getElementById("gamePage").style.display = "none";
+    document.getElementById("endPage").style.display = "block";
+    document.getElementById("guessedWord").innerHTML = "The right word is: " + word;
 }
