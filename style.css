@@ -1,20 +1,37 @@
 html {
-    height: 100%;
+    min-height: 100%;
     margin: 0;
-    font-family: "Copperplate Gothic Bold", sans-serif;
+    font-family: "Copperplate Gothic Bold", "Trebuchet MS", sans-serif;
 }
 
 body {
-    background-color: black;
-    background-image: url('https://raw.githubusercontent.com/lucie07/hangman-game/refs/heads/main/assets/images/background.jpg');
     min-height: 100vh;
     width: 100%;
     margin: 0;
+    background-color: #1f1206;
+    background-image: url("assets/images/background.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    color: #2b1603;
+    position: relative;
 }
 
+/* Add a dark overlay to improve contrast against the bright orange image */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        linear-gradient(
+            rgba(35, 18, 4, 0.48),
+            rgba(35, 18, 4, 0.48)
+        );
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Shared page panels */
 #introPage,
 #myPage,
 #endPage {
@@ -24,6 +41,13 @@ body {
     bottom: 0;
     left: 0;
     margin: auto;
+    z-index: 1;
+
+    background: rgba(255, 245, 218, 0.88);
+    border: 2px solid rgba(92, 43, 8, 0.45);
+    border-radius: 28px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
 }
 
 /* Intro Page */
@@ -36,7 +60,7 @@ body {
 
 #introText {
     width: 650px;
-    height: 260px;
+    min-height: 260px;
     margin: 40px auto;
 }
 
@@ -44,6 +68,8 @@ body {
 #myPage p {
     font-size: 45px;
     text-align: center;
+    color: #2b1603;
+    text-shadow: 1px 1px 0 rgba(255, 232, 166, 0.9);
 }
 
 #button {
@@ -52,25 +78,42 @@ body {
     margin: 20px auto;
 }
 
-#startButton {
+#startButton,
+#goStart {
     display: block;
-    background: yellowgreen;
     box-sizing: border-box;
-    width: 200px;
-    height: 60px;
     cursor: pointer;
-    line-height: 60px;
-    font-size: 25px;
-    border-radius: 10px;
-    text-align: center;
-    margin: 140px auto 0 auto;
-    border: none;
+    border: 2px solid #5c2b08;
+    border-radius: 14px;
     font-family: inherit;
+
+    background: #7a3f0b;
+    color: #fff8e6;
+    box-shadow: 0 6px 0 #3b1d07;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
-#startButton:hover {
-    background: olivedrab;
-    color: white;
+#startButton {
+    width: 200px;
+    height: 60px;
+    line-height: 56px;
+    font-size: 25px;
+    text-align: center;
+    margin: 140px auto 0 auto;
+}
+
+#startButton:hover,
+#goStart:hover {
+    background: #a45510;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #3b1d07;
+}
+
+#startButton:active,
+#goStart:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #3b1d07;
 }
 
 #hangmanImg {
@@ -87,7 +130,7 @@ body {
 }
 
 #myPage p {
-    margin: 20px auto;
+    margin: 35px auto 20px auto;
 }
 
 #fruitButton {
@@ -104,23 +147,12 @@ body {
 }
 
 #goStart {
-    display: block;
     width: 450px;
-    min-height: 50px;
+    min-height: 54px;
     text-align: center;
     margin: 6px auto;
-    background: yellowgreen;
-    border-radius: 10px;
-    cursor: pointer;
-    border: none;
     font-size: 24px;
-    font-family: inherit;
-    padding: 8px 12px;
-}
-
-#goStart:hover {
-    background: olivedrab;
-    color: white;
+    padding: 10px 12px;
 }
 
 /* Game Page */
@@ -128,19 +160,35 @@ body {
 #gamePage {
     display: none;
     text-align: center;
+    position: relative;
+    z-index: 1;
+
+    width: 900px;
+    min-height: 680px;
+    margin: 30px auto;
+    padding: 24px 30px;
+
+    background: rgba(255, 245, 218, 0.88);
+    border: 2px solid rgba(92, 43, 8, 0.45);
+    border-radius: 28px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
 }
 
 #theName {
-    font-size: 40px;
+    font-size: 42px;
     margin: 10px auto;
+    color: #2b1603;
+    text-shadow: 1px 1px 0 rgba(255, 232, 166, 0.9);
 }
 
 #mistakes {
-    width: 250px;
-    height: 30px;
+    width: 300px;
+    min-height: 36px;
     font-size: 30px;
-    color: #000080;
+    color: #5c1f0a;
     margin: 0 auto 20px auto;
+    font-weight: bold;
 }
 
 #letterBank {
@@ -154,20 +202,32 @@ body {
     font-size: 25px;
     margin: 5px;
     width: 50px;
-    height: 40px;
-    background-color: lightskyblue;
+    height: 42px;
+
+    background-color: #fff3c4;
+    color: #2b1603;
     cursor: pointer;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid #8a4a0d;
+    border-radius: 8px;
     font-family: inherit;
+    box-shadow: 0 3px 0 #5c2b08;
+    transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease;
 }
 
 #letterBank button:hover {
-    background-color: deepskyblue;
+    background-color: #ffd36b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 0 #5c2b08;
+}
+
+#letterBank button:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #5c2b08;
 }
 
 #letterBank button:disabled {
     cursor: default;
+    opacity: 0.45;
 }
 
 #wordWrap {
@@ -177,108 +237,8 @@ body {
 }
 
 /* Letter boxes */
-
-#letter1,
-#letter2,
-#letter3,
-#letter4,
-#letter5,
-#letter6,
-#letter7,
-#letter8,
-#letter9,
-#letter10,
-#letter11,
-#letter12,
-#letter13,
-#letter14,
-#letter15,
-#letter16,
-#letter17,
-#letter18,
-#letter19,
-#letter20,
-#letter21,
-#letter22,
-#letter23,
-#letter24,
-#letter25,
-#letter26,
-#letter27,
-#letter28,
-#letter29,
-#letter30,
-#letter31,
-#letter32,
-#letter33,
-#letter34,
-#letter35,
-#letter36,
-#letter37,
-#letter38,
-#letter39,
-#letter40,
-#letter41,
-#letter42,
-#letter43,
-#letter44,
-#letter45,
-#letter46,
-#letter47,
-#letter48,
-#letter49,
-#letter50,
-#letter51,
-#letter52,
-#letter53,
-#letter54,
-#letter55,
-#letter56,
-#letter57,
-#letter58,
-#letter59,
-#letter60,
-#letter61,
-#letter62,
-#letter63,
-#letter64,
-#letter65,
-#letter66,
-#letter67,
-#letter68,
-#letter69,
-#letter70,
-#letter71,
-#letter72,
-#letter73,
-#letter74,
-#letter75,
-#letter76,
-#letter77,
-#letter78,
-#letter79,
-#letter80,
-#letter81,
-#letter82,
-#letter83,
-#letter84,
-#letter85,
-#letter86,
-#letter87,
-#letter88,
-#letter89,
-#letter90,
-#letter91,
-#letter92,
-#letter93,
-#letter94,
-#letter95,
-#letter96,
-#letter97,
-#letter98,
-#letter99,
-#letter100 {
-    font-family: "Droid Sans Mono Slashed", cursive;
+#wordWrap [id^="letter"] {
+    font-family: "Droid Sans Mono Slashed", "Courier New", monospace;
     width: 50px;
     height: 60px;
     margin: 0;
@@ -286,110 +246,12 @@ body {
     font-size: 50px;
     line-height: 60px;
     padding: 0;
+    color: #2b1603;
+    text-shadow: 1px 1px 0 rgba(255, 232, 166, 0.8);
 }
 
 /* Underlines */
-
-#underline1,
-#underline2,
-#underline3,
-#underline4,
-#underline5,
-#underline6,
-#underline7,
-#underline8,
-#underline9,
-#underline10,
-#underline11,
-#underline12,
-#underline13,
-#underline14,
-#underline15,
-#underline16,
-#underline17,
-#underline18,
-#underline19,
-#underline20,
-#underline21,
-#underline22,
-#underline23,
-#underline24,
-#underline25,
-#underline26,
-#underline27,
-#underline28,
-#underline29,
-#underline30,
-#underline31,
-#underline32,
-#underline33,
-#underline34,
-#underline35,
-#underline36,
-#underline37,
-#underline38,
-#underline39,
-#underline40,
-#underline41,
-#underline42,
-#underline43,
-#underline44,
-#underline45,
-#underline46,
-#underline47,
-#underline48,
-#underline49,
-#underline50,
-#underline51,
-#underline52,
-#underline53,
-#underline54,
-#underline55,
-#underline56,
-#underline57,
-#underline58,
-#underline59,
-#underline60,
-#underline61,
-#underline62,
-#underline63,
-#underline64,
-#underline65,
-#underline66,
-#underline67,
-#underline68,
-#underline69,
-#underline70,
-#underline71,
-#underline72,
-#underline73,
-#underline74,
-#underline75,
-#underline76,
-#underline77,
-#underline78,
-#underline79,
-#underline80,
-#underline81,
-#underline82,
-#underline83,
-#underline84,
-#underline85,
-#underline86,
-#underline87,
-#underline88,
-#underline89,
-#underline90,
-#underline91,
-#underline92,
-#underline93,
-#underline94,
-#underline95,
-#underline96,
-#underline97,
-#underline98,
-#underline99,
-#underline100 {
+#wordWrap [id^="underline"] {
     display: none;
     float: left;
     width: 50px;
@@ -397,12 +259,14 @@ body {
     margin-right: 5px;
     margin-bottom: 0;
     padding: 0;
+    border-bottom-color: #3a1f06 !important;
 }
 
 #hangImg {
     margin: 20px auto;
     clear: both;
     display: block;
+    max-width: 240px;
 }
 
 /* End Page */
@@ -414,20 +278,22 @@ body {
 }
 
 #winStatus {
-    font-size: 35px;
+    font-size: 38px;
     text-align: center;
-    color: orange;
-    margin-top: 20px;
+    color: #5c1f0a;
+    margin-top: 35px;
+    text-shadow: 1px 1px 0 rgba(255, 232, 166, 0.9);
 }
 
 #guessedWord {
-    width: 500px;
-    min-height: 40px;
-    font-size: 30px;
-    line-height: 40px;
-    color: #6960EC;
+    width: 600px;
+    min-height: 44px;
+    font-size: 32px;
+    line-height: 44px;
+    color: #2b1603;
     margin: 20px auto;
     text-align: center;
+    font-weight: bold;
 }
 
 #hangImgWin {
