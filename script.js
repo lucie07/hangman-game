@@ -271,3 +271,28 @@ function lose() {
     document.getElementById("endPage").style.display = "block";
     document.getElementById("guessedWord").innerHTML = "The right word is: " + word;
 }
+
+// detect keyboard guesses
+document.addEventListener("keydown", function(event) {
+    var gamePage = document.getElementById("gamePage");
+
+    if (gamePage.style.display !== "block") {
+        return;
+    }
+
+    var pressedKey = event.key.toLowerCase();
+
+    if (!/^[a-z]$/.test(pressedKey)) {
+        return;
+    }
+
+    var button = document.getElementById(pressedKey);
+
+    if (!button || button.disabled) {
+        return;
+    }
+
+    guessLetter({
+        target: button
+    });
+});
