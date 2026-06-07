@@ -6,10 +6,10 @@ var numRight = 0;
 var mistake = 7;
 var nextImg = 1;
 
-var correctSound = new Audio("audio/correct-letter-sound-mechanical-typewriter-hit.wav");
-var wrongSound = new Audio("audio/wrong-letter-sound-game-alert-sweep.wav");
-var winSound = new Audio("audio/violin-win-sound.mp3");
-var loseSound = new Audio("audio/violin-lose-sound.mp3");
+var correctSound = new Audio("assets/audio/correct-letter-sound-mechanical-typewriter-hit.wav");
+var wrongSound = new Audio("assets/audio/wrong-letter-sound-game-alert-sweep.wav");
+var winSound = new Audio("assets/audio/violin-win-sound.mp3");
+var loseSound = new Audio("assets/audio/violin-lose-sound.mp3");
 
 function playSound(sound) {
     sound.currentTime = 0;
