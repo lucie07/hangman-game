@@ -6,6 +6,19 @@ var numRight = 0;
 var mistake = 7;
 var nextImg = 1;
 
+var correctSound = new Audio("sounds/correct-letter-sound-mechanical-typewriter-hit.wav");
+var wrongSound = new Audio("sounds/wrong-letter-sound-game-alert-sweep.wav");
+var winSound = new Audio("sounds/violin-win-sound.mp3");
+var loseSound = new Audio("sounds/violin-lose-sound.mp3");
+
+function playSound(sound) {
+    sound.currentTime = 0;
+
+    sound.play().catch(function(error) {
+        console.log("Sound could not be played:", error);
+    });
+}
+
 var fruits = [
     "apple",
     "kiwi",
