@@ -6,10 +6,10 @@ var numRight = 0;
 var mistake = 7;
 var nextImg = 1;
 
-var correctSound = new Audio("sounds/correct-letter-sound-mechanical-typewriter-hit.wav");
-var wrongSound = new Audio("sounds/wrong-letter-sound-game-alert-sweep.wav");
-var winSound = new Audio("sounds/violin-win-sound.mp3");
-var loseSound = new Audio("sounds/violin-lose-sound.mp3");
+var correctSound = new Audio("audio/correct-letter-sound-mechanical-typewriter-hit.wav");
+var wrongSound = new Audio("audio/wrong-letter-sound-game-alert-sweep.wav");
+var winSound = new Audio("audio/violin-win-sound.mp3");
+var loseSound = new Audio("audio/violin-lose-sound.mp3");
 
 function playSound(sound) {
     sound.currentTime = 0;
@@ -85,7 +85,7 @@ function resetGame() {
     nextImg = 1;
 
     document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
-    document.getElementById("hangImg").src = "hang1.png";
+    document.getElementById("hangImg").src = "assets/images/hang1.png";
     document.getElementById("winStatus").innerHTML = "";
     document.getElementById("guessedWord").innerHTML = "Word";
 
@@ -229,7 +229,7 @@ function guessLetter(event) {
         nextImg++;
 
         document.getElementById("mistakes").innerHTML = "Chances : " + mistake;
-        document.getElementById("hangImg").src = "hang" + nextImg + ".png";
+        document.getElementById("hangImg").src = "assets/images/hang" + nextImg + ".png";
 
         if (mistake > 0) {
             playSound(wrongSound);
