@@ -118,7 +118,10 @@ body::before {
 
 #hangmanImg {
     display: block;
-    margin: 70px auto;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+    margin: 30px auto 0 auto;
 }
 
 /* Category Page */
