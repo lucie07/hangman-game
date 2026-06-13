@@ -79,7 +79,8 @@ body::before {
 }
 
 #startButton,
-#goStart {
+#goStart,
+#playAgainButton {
     display: block;
     box-sizing: border-box;
     cursor: pointer;
@@ -93,7 +94,8 @@ body::before {
     transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
-#startButton {
+#startButton,
+#playAgainButton {
     width: 200px;
     height: 60px;
     line-height: 56px;
@@ -103,7 +105,8 @@ body::before {
 }
 
 #startButton:hover,
-#goStart:hover {
+#goStart:hover,
+#playAgainButton:hover {
     background: #a45510;
     color: #ffffff;
     transform: translateY(-2px);
@@ -111,7 +114,8 @@ body::before {
 }
 
 #startButton:active,
-#goStart:active {
+#goStart:active,
+#playAgainButton:active {
     transform: translateY(3px);
     box-shadow: 0 3px 0 #3b1d07;
 }
@@ -305,23 +309,4 @@ body::before {
     margin: 20px auto;
     clear: both;
     display: block;
-}
-
-#playAgainButton {
-    display: block;
-    width: 220px;
-    min-height: 50px;
-    margin: 30px auto 0 auto;
-    background: yellowgreen;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 24px;
-    font-family: inherit;
-    text-align: center;
-}
-
-#playAgainButton:hover {
-    background: olivedrab;
-    color: white;
 }
