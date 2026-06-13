@@ -306,3 +306,22 @@ body::before {
     clear: both;
     display: block;
 }
+
+#playAgainButton {
+    display: block;
+    width: 220px;
+    min-height: 50px;
+    margin: 30px auto 0 auto;
+    background: yellowgreen;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    font-family: inherit;
+    text-align: center;
+}
+
+#playAgainButton:hover {
+    background: olivedrab;
+    color: white;
+}

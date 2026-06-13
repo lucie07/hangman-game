@@ -272,6 +272,11 @@ function lose() {
     document.getElementById("guessedWord").innerHTML = "The right word is: " + word;
 }
 
+function playAgain() {
+    document.getElementById("endPage").style.display = "none";
+    fruit();
+}
+
 // detect keyboard guesses
 document.addEventListener("keydown", function(event) {
     var gamePage = document.getElementById("gamePage");
